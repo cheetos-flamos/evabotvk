@@ -13,14 +13,13 @@ vk_session = vk_api.VkApi(token='4a2151457df20731fd1f0b6cf14d491fd5908e7c428df4e
 vk = vk_session.get_api()
 longpoll = VkBotLongPoll(vk_session, '196559740')
 
-sphere = ["возможно", 'лол, нет', 'ахах даже не надейся лошара', 'конечно, бро', '100 проц', 'хз']
+sphere = ["возможно", 'лол, нет', 'ахах, даже не надейся, лошара', 'конечно, бро', '100 проц', 'хз']
 owner_id = 318741811
 
 
 def tyanki(chat_id, event, username):
     num = str(random.randint(1, 192))
     random_url = num + '.jpg'
-    random_url = '/usr/local/bin/evabot/tyanki/' + random_url
     upload = vk_api.VkUpload(vk)
     photo = upload.photo_messages(random_url)
     owner_id = photo[0]['owner_id']
@@ -36,7 +35,6 @@ def tyanki(chat_id, event, username):
 def kick(chat_id, event, username, message):
     urls = ['kick1', 'kick2', 'kick3', 'kick4', 'kick5', 'kick6', 'kick7']
     random_url = random.choice(urls) + '.jpg'
-    random_url = '/usr/local/bin/evabot/kicks/' + random_url
     upload = vk_api.VkUpload(vk)
     photo = upload.photo_messages(random_url)
     owner_id = photo[0]['owner_id']
@@ -46,11 +44,11 @@ def kick(chat_id, event, username, message):
     if len(message.split(' ')) == 3:
         name = message.split(' ')[2]
         vk.messages.send(peer_id=chat_id + 2000000000, random_id=get_random_id(),
-                         message=f'{username} уебал {name} &#128074;',
+                         message=f'{username} ударил {name} &#128074;',
                          attachment=attachment)
     elif len(message.split(' ')) == 2:
         vk.messages.send(peer_id=chat_id + 2000000000, random_id=get_random_id(),
-                         message=f'{username} уебал себя',
+                         message=f'{username} ударил себя',
                          attachment=attachment)
     else:
         name = message.split(' ')[2]
@@ -60,7 +58,7 @@ def kick(chat_id, event, username, message):
         text.pop(0)
         text = ' '.join(text)
         vk.messages.send(peer_id=chat_id + 2000000000, random_id=get_random_id(),
-                         message=f'{username} уебал {name}, '
+                         message=f'{username} ударил{name}, '
                                  f'со словами: "{text}" &#128074;',
                          attachment=attachment)
 
@@ -156,7 +154,7 @@ while True:
                                      f'{username}, {random.choice(sphere)}')
                     elif command == 'тянка' or command == 'тяночка' or command == 'тян':
                         tyanki(chat_id, event, username)
-                    elif 'уебать' in command:
+                    elif 'ударить' in command:
                         kick(chat_id, event, username, message)
                     elif command == 'фото кек':
                         try:
