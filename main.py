@@ -70,6 +70,10 @@ def send_message(random_id, chat_id, message):
                      message=message)
 
 
+def test():
+    pass
+
+
 def send_kek(chat_id, event, username):
     url1 = 'photo1.jpg'
     url2 = 'photo2.jpg'
