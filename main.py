@@ -203,7 +203,7 @@ while True:
                             else:
                                 send_message(chat_id, f'{username}, а где "или" ёпта?')
                         except BaseException:
-                            traceback.format_exc()
+                            pass
                     elif 'ты меня любишь' in command or 'ты меня не любишь' in command:
                         if sender_id == owner_id:
                             send_message(chat_id, f'Конечно, любимый &#128150; &#128150; &#128150;')
@@ -211,7 +211,5 @@ while True:
                             send_message(chat_id, f'НЕТ, я люблю только моего *id318741811 (создателя)!')
 
 
-
     except BaseException:
-        a = traceback.format_exc()
-        print(a)
+        pass
