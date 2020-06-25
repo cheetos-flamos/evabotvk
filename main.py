@@ -64,14 +64,10 @@ def kick(chat_id, event, username, message):
                          attachment=attachment)
 
 
-def send_message(random_id, chat_id, message):
+def send_message(chat_id, message):
     vk.messages.send(random_id=get_random_id(),
                      peer_id=chat_id + 2000000000,
                      message=message)
-
-
-def test():
-    pass
 
 
 def send_kek(chat_id, event, username):
@@ -139,40 +135,41 @@ while True:
                 if message.split(' ')[0].lower() == "ева" or message.split(' ')[0].lower() == "евочка" or \
                         message.split(' ')[0].lower() == "ева,":
                     username = vk.users.get(user_ids=event.object["from_id"])[0]['first_name']
+                    chat_id = event.chat_id
                     command = message.lower().split(' ')
                     command.pop(0)
                     command = ' '.join(command)
                     if command == 'привет':
-                        send_message(0, event.chat_id,
+                        send_message(chat_id,
                                      f'{username}, приветики!!!')
                     elif command == 'сап':
-                        send_message(0, event.chat_id,
+                        send_message(chat_id,
                                      f'{username}, сап, омежка :3')
                     elif command == 'салам' or command == 'салам алейкум':
-                        send_message(0, event.chat_id,
+                        send_message(chat_id,
                                      f'{username}, алейкум асалам,'
                                      f' брат')
                     elif "шар" in command:
-                        send_message(0, event.chat_id,
+                        send_message(chat_id,
                                      f'{username}, {random.choice(sphere)}')
                     elif command == 'тянка' or command == 'тяночка' or command == 'тян':
-                        tyanki(event.chat_id, event, username)
+                        tyanki(chat_id, event, username)
                     elif 'уебать' in command:
-                        kick(event.chat_id, event, username, message)
+                        kick(chat_id, event, username, message)
                     elif command == 'фото кек':
                         try:
                             url = event.object['attachments'][0]['photo']['sizes'][-1]['url']
                             photokek(url)
-                            send_kek(event.chat_id, event, username)
+                            send_kek(chat_id, event, username)
                         except BaseException:
-                            send_message(0, event.chat_id, f'{username}, а где картинка ёпта?')
+                            send_message(chat_id, f'{username}, а где картинка ёпта?')
                     elif command == 'фото негатив':
                         try:
                             url = event.object['attachments'][0]['photo']['sizes'][-1]['url']
                             invert(url)
-                            send_invert(event.chat_id, event, username)
+                            send_invert(chat_id, event, username)
                         except BaseException:
-                            send_message(0, event.chat_id, f'{username}, а где картинка ёпта?')
+                            send_message(chat_id, f'{username}, а где картинка ёпта?')
 
                     elif 'фото 3д' in command:
                         command_3d = command.split(' ')
@@ -180,18 +177,32 @@ while True:
                             try:
                                 url = event.object['attachments'][0]['photo']['sizes'][-1]['url']
                                 make_3d(url)
-                                send_3d(event.chat_id, event, username)
+                                send_3d(chat_id, event, username)
                             except BaseException:
-                                send_message(0, event.chat_id, f'{username}, а где картинка ёпта?')
+                                send_message(chat_id, f'{username}, а где картинка ёпта?')
                         else:
                             try:
                                 delta = int(command_3d[-1])
                                 url = event.object['attachments'][0]['photo']['sizes'][-1]['url']
                                 make_3d(url, delta)
-                                send_3d(event.chat_id, event, username)
+                                send_3d(chat_id, event, username)
                             except BaseException:
-                                send_message(0, event.chat_id,
+                                send_message(chat_id,
                                              f'{username}, либо нет пикчи, либо нет цифры')
+                    elif 'выбери' in command:
+                        try:
+                            if ' или ' in command:
+                                command = command.split(' ')
+                                index = command.index('выбери')
+                                command = command[index + 1:]
+                                command = ' '.join(command)
+                                command = command.split(' или ')
+                                result = random.choice(command)
+                                send_message(chat_id, f'{username}, я думаю, что "{result}"')
+                            else:
+                                send_message(chat_id, f'{username}, а где "или" ёпта?')
+                        except BaseException:
+                            traceback.format_exc()
 
 
     except BaseException:
