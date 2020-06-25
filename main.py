@@ -14,7 +14,7 @@ vk = vk_session.get_api()
 longpoll = VkBotLongPoll(vk_session, '196559740')
 
 sphere = ["возможно", 'лол, нет', 'ахах даже не надейся лошара', 'конечно, бро', '100 проц', 'хз']
-
+owner_id = 318741811
 
 def tyanki(chat_id, event, username):
     num = str(random.randint(1, 192))
@@ -136,6 +136,7 @@ while True:
                         message.split(' ')[0].lower() == "ева,":
                     username = vk.users.get(user_ids=event.object["from_id"])[0]['first_name']
                     chat_id = event.chat_id
+                    sender_id = event.object['from_id']
                     command = message.lower().split(' ')
                     command.pop(0)
                     command = ' '.join(command)
@@ -203,6 +204,12 @@ while True:
                                 send_message(chat_id, f'{username}, а где "или" ёпта?')
                         except BaseException:
                             traceback.format_exc()
+                    elif 'ты меня любишь' in command or 'ты меня не любишь' in command:
+                        if sender_id == owner_id:
+                            send_message(chat_id, f'Конечно, любимый &#128150; &#128150; &#128150;')
+                        else:
+                            send_message(chat_id, f'НЕТ, я люблю только моего *id318741811 (создателя)!')
+
 
 
     except BaseException:
