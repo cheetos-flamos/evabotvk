@@ -1,1 +1,1 @@
-worker: python setup.py $PORT
+web: python main.py
