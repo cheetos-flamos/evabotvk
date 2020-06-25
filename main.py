@@ -60,7 +60,7 @@ def kick(chat_id, event, username, message):
         text.pop(0)
         text = ' '.join(text)
         vk.messages.send(peer_id=chat_id + 2000000000, random_id=get_random_id(),
-                         message=f'{username} уебал {name}, '
+                         message=f'{username} ударил {name}, '
                                  f'со словами: "{text}" &#128074;',
                          attachment=attachment)
 
@@ -156,7 +156,7 @@ while True:
                                      f'{username}, {random.choice(sphere)}')
                     elif command == 'тянка' or command == 'тяночка' or command == 'тян':
                         tyanki(chat_id, event, username)
-                    elif 'уебать' in command:
+                    elif 'ударить' in command:
                         kick(chat_id, event, username, message)
                     elif command == 'фото кек':
                         try:
