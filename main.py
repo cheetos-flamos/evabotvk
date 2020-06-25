@@ -16,6 +16,7 @@ longpoll = VkBotLongPoll(vk_session, '196559740')
 sphere = ["возможно", 'лол, нет', 'ахах даже не надейся лошара', 'конечно, бро', '100 проц', 'хз']
 owner_id = 318741811
 
+
 def tyanki(chat_id, event, username):
     num = str(random.randint(1, 192))
     random_url = num + '.jpg'
