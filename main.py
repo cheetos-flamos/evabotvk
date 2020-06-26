@@ -18,7 +18,6 @@ longpoll = VkBotLongPoll(vk_session, '196559740')
 sphere = ["возможно", 'лол, нет', 'ахах, даже не надейся, лошара', 'конечно, бро', '100 проц', 'хз']
 owner_id = 318741811
 
-
 db = sqlite3.connect('nicknames.db')
 sql = db.cursor()
 
@@ -177,7 +176,7 @@ while True:
                     elif command == 'тянка' or command == 'тяночка' or command == 'тян':
                         tyanki(id_chat, username)
                     elif 'ударить' in command:
-                        kick(id_chat, event, message)
+                        kick(id_chat, username, message)
                     elif command == 'фото кек':
                         try:
                             url = event.object['attachments'][0]['photo']['sizes'][-1]['url']
