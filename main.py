@@ -138,7 +138,7 @@ def check_nickname(user_id):
     sql = db.cursor()
     sql.execute("SELECT user_id FROM nicknames")
     nicknames = sql.fetchall()
-    if (sender_id,) not in nicknames:
+    if (user_id,) not in nicknames:
         return vk.users.get(user_ids=event.object["from_id"])[0]['first_name']
     else:
         sql.execute(f"SELECT nickname FROM nicknames WHERE user_id = {user_id}")
@@ -234,11 +234,25 @@ while True:
                         command.pop(0)
                         nickname = command
                         nickname = ' '.join(nickname)
-                        if len(command) < 20:
+                        if len(command) < 20 and len(command) > 2:
                             insert_information_to_database(sender_id, nickname)
                             send_message(id_chat, 'Ник установлен!')
                         else:
-                            send_message(id_chat, 'Слишком много символов! (максимум 20)')
+                            send_message(id_chat, 'Слишком много символов! (максимум 20, минимум 2)')
+                    elif 'кто ' in command:
+                        users = []
+                        dictionary_with_user_data = vk.messages.getConversationMembers(peer_id=id_chat + 2000000000)
+                        for user in dictionary_with_user_data['items']:
+                            if str(user['member_id'])[0] != '-':
+                                users.append(int(user['member_id']))
+                        random_user = random.choice(users)
+                        user_get = vk.users.get(user_ids=(random_user))
+                        user_get = user_get[0]
+                        first_name = user_get['first_name']
+                        last_name = user_get['last_name']
+                        full_name = first_name + " " + last_name
+                        send_message(id_chat, f'Уверена, что это {full_name}')
+
 
 
 
