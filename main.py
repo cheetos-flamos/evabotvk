@@ -65,7 +65,7 @@ def kick(chat_id, username, message):
         text.pop(0)
         text = ' '.join(text)
         vk.messages.send(peer_id=chat_id + 2000000000, random_id=get_random_id(),
-                         message=f'{username} ударил{name}, '
+                         message=f'{username} ударил {name}, '
                                  f'со словами: "{text}" &#128074;',
                          attachment=attachment)
 
