@@ -7,6 +7,8 @@ import requests
 import traceback
 from photo import photokek, invert, make_3d
 import os
+from work_with_database import insert_information_to_database
+import sqlite3
 
 vk_session = vk_api.VkApi(token='4a2151457df20731fd1f0b6cf14d491fd5908e7c428df4ee2c'
                                 '1bf7e74d7454fddef80690b946d5ef6e035')
@@ -15,6 +17,10 @@ longpoll = VkBotLongPoll(vk_session, '196559740')
 
 sphere = ["возможно", 'лол, нет', 'ахах, даже не надейся, лошара', 'конечно, бро', '100 проц', 'хз']
 owner_id = 318741811
+
+
+db = sqlite3.connect('nicknames.db')
+sql = db.cursor()
 
 
 def tyanki(chat_id, username):
@@ -128,6 +134,20 @@ def send_3d(chat_id, username):
     os.remove('imgres3d.jpg')
 
 
+def check_nickname(user_id):
+    db = sqlite3.connect('nicknames.db')
+    sql = db.cursor()
+    sql.execute("SELECT user_id FROM nicknames")
+    nicknames = sql.fetchall()
+    if (sender_id,) not in nicknames:
+        return vk.users.get(user_ids=event.object["from_id"])[0]['first_name']
+    else:
+        sql.execute(f"SELECT nickname FROM nicknames WHERE user_id = {user_id}")
+        nickname_db = sql.fetchall()[0][0]
+        db.commit()
+        return nickname_db
+
+
 while True:
     try:
         for event in longpoll.listen():
@@ -135,9 +155,9 @@ while True:
                 message = event.object["text"]
                 if message.split(' ')[0].lower() == "ева" or message.split(' ')[0].lower() == "евочка" or \
                         message.split(' ')[0].lower() == "ева,":
-                    username = vk.users.get(user_ids=event.object["from_id"])[0]['first_name']
-                    id_chat = event.chat_id
                     sender_id = event.object['from_id']
+                    username = check_nickname(sender_id)
+                    id_chat = event.chat_id
                     command = message.lower().split(' ')
                     command.pop(0)
                     command = ' '.join(command)
@@ -210,6 +230,17 @@ while True:
                             send_message(id_chat, f'Конечно, любимый &#128150; &#128150; &#128150;')
                         else:
                             send_message(id_chat, f'НЕТ, я люблю только моего *id318741811 (создателя)!')
+                    elif 'ник ' in command:
+                        command = command.split(' ')
+                        command.pop(0)
+                        nickname = command
+                        nickname = ' '.join(nickname)
+                        if len(command) < 20:
+                            insert_information_to_database(sender_id, nickname)
+                            send_message(id_chat, 'Ник установлен!')
+                        else:
+                            send_message(id_chat, 'Слишком много символов! (максимум 20)')
+
 
 
     except Exception as e:
