@@ -41,7 +41,7 @@ def invert(url):
     os.remove("imginvert.jpg")
 
 
-def make_3d(url, delta=8):
+def make_3d(url, delta=10):
     p = requests.get(url)
     out = open("img3d.jpg", "wb")
     out.write(p.content)
