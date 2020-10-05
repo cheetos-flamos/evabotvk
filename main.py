@@ -13,7 +13,7 @@ import datetime
 
 
 vk = vk_session.get_api()
-longpoll = VkBotLongPoll(vk_session, '196559740')
+longpoll = VkBotLongPoll(vk_session, '')
 
 sphere = ["возможно", 'лол, нет', 'ахах, даже не надейся, лошара', 'конечно, бро', '100 проц', 'хз']
 
