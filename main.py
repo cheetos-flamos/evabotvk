@@ -16,7 +16,7 @@ vk = vk_session.get_api()
 longpoll = VkBotLongPoll(vk_session, '196559740')
 
 sphere = ["возможно", 'лол, нет', 'ахах, даже не надейся, лошара', 'конечно, бро', '100 проц', 'хз']
-owner_id = 318741811
+
 
 
 def send_message(chat_id, message):
